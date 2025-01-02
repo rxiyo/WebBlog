@@ -1,9 +1,13 @@
 # About
-This is the demo site for [Fuwari](https://github.com/saicaca/fuwari).
+## Repo
+::github{repo="HanFayeDD/WebBlog"}
+## Music🎵🎶
+<div align="center">
+  <a href="https://open.spotify.com/user/31thjodcb3ipykdvan6hysnvva4y">
+    <img src="https://spotify-recently-played-readme.vercel.app/api?user=31thjodcb3ipykdvan6hysnvva4y&count=3&unique=true" alt="Spotify recently played"  width="100%" height="100"/>
+  </a>
 
-::github{repo="saicaca/fuwari"}
+## resume
+<iframe src="/buaa.pdf" width="100%" height="500"></iframe>
 
-> ### Sources of images used in this site
-> - [Unsplash](https://unsplash.com/)
-> - [星と少女](https://www.pixiv.net/artworks/108916539) by [Stella](https://www.pixiv.net/users/93273965)
-> - [Rabbit - v1.4 Showcase](https://civitai.com/posts/586908) by [Rabbit_YourMajesty](https://civitai.com/user/Rabbit_YourMajesty)
+</div>
