@@ -5,7 +5,7 @@ description: "How to use this blog template."
 image: "./cover.jpeg"
 tags: ["Fuwari", "Blogging", "Customization", "测试"]
 category: Guides
-draft: false
+draft: true
 ---
 
 # hi
