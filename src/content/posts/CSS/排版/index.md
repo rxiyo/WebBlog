@@ -18,12 +18,13 @@ draft: false
    - 交叉轴: cross axie,cross start, cross end
    - flex容器：设置`display:flex`的父元素
    - flex项目: flex容器中表现为弹性的盒子的元素
+> 下为flex容器中的一些设置
 2. `flex-direction`
    - 指定主轴的方向
    - 默认值是row
    > `row-reverse`和`column-reverse`用于反向排列flex项
 3. `justify-content`
-   主轴方排列方式
+   主轴方向排列方式
    - `flex-start`：从主轴开始位置，从左到右
    - `flex-end`：从主轴结束位置，从右到左
    - `center`：居中
