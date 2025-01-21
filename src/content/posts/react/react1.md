@@ -48,3 +48,28 @@ draft: false
     }
     ```
 >   也可以把父组件中`infoFromChild`和`setInfo`都传入子组件,总而能够在子组件中根据旧值来更新新值
+
+### 关于`children`
+父组件中使用子组件有两种方式。
+- `<ChildCompoent/>`
+- `<ChildCompoent>中间的内容</ChildCompoent>`
+在方式2中，子组件首尾标签之间的内容是通过`children`prop在子组件中渲染的。
+```javascript
+function AlertButton({ message, children }) {
+  return (
+    <button onClick={() => alert(message)}>
+      {children}
+    </button>
+  );
+}
+export default function Toolbar() {
+  return (
+    <div>
+      <AlertButton message="正在播放！">
+        播放电影
+      </AlertButton>
+    </div>
+  );
+}
+```
+
