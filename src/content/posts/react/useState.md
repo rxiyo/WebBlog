@@ -94,3 +94,76 @@ if (q) { // 确保q不为空时才发起请求
 }, [q]); // 监听q的变化
 ```
 > 感觉上甚至有点像将`setQ`和请求的函数放在了不同的作用域。因此请求时的用到的值是更新之后的q值。
+
+
+## useState的对象使用
+当useState中使用数字、字符串时候，可以将其看作是一个不可变对象。
+当useState中使用对象时候，虽然是可变对象，但也应该将其看作一个不可变对象。
+换而言之，将**state看作是一个只读的**。对state的改变应该通过`useState`函数。如果直接用`state.attr`对作为某些事件响应函数的内容，可能不会触发一次重新渲染。
+
+### 展开语法赋值对象
+前文提及，useState中应该传入一个新的对象来更新。因此对于不需要改变的属性，可以通过展开语法直接复制。
+`...`语法为浅拷贝，只复制一层，对于多层嵌套情况，需要多次使用。
+```javascript
+  function handleEmailChange(e) {
+    setPerson({
+      ...person,//赋值person的旧值
+      email: e.target.value
+    });
+  }
+
+```
+
+## state中数组的使用
+数组也是一个可变对象，不能简单的直接使用push等方法
+- 添加元素：
+  ```javascript
+  setArtists( // 替换 state
+    [ // 是通过传入一个新数组实现的
+      ...artists, // 新数组包含原数组的所有元素
+      { id: nextId++, name: name } // 并在末尾添加了一个新的元素
+    ]
+  );
+  ```
+- 在指定位置添加元素：
+  使用`slice`以及类似python中`[]`拼接的操作
+- 删除元素：
+  fliter不会改变原始数组，而是创建一个新的数组
+  ```
+  let array = ['a', 'b', 'c', 'd', 'e'];
+  let newArray = array.filter((element, index) => index % 2 === 0);
+  console.log(newArray); // 输出: ['a', 'c', 'e']
+  ```
+  > 注意`===`和`==`有着区别，前者是严格相等（类型和数值都相等），后者会将二者变成相同的类型再进行比较。同理`!==`和`!=`类似。
+- 转换数组
+  创建一个新的数组，使用`map`
+- 替换数组中的元素
+  通过map来实现
+  ```javascript
+    function handleIncrementClick(index) {
+    const nextCounters = counters.map((c, i) => {
+      if (i === index) {
+        // 递增被点击的计数器数值
+        return c + 1;
+      } else {
+        // 其余部分不发生变化
+        return c;
+      }
+    });
+    setCounters(nextCounters);
+  }
+  ```
+- 先拷贝数组，在对新数组进行操作，最后在setArray()
+  比如reverse、sort方法等。这些方法会改变原数组。
+  ```javascript
+    function handleClick() {
+    const nextList = [...list];//浅拷贝
+    nextList.reverse();
+    setList(nextList);
+  }
+  ```
+  > 注意：对于一个存储对象的数组，使用的拷贝为浅拷贝。拷贝的新数组为newArr。但使用`newArr[0].attr`访问对象属性时，实际上也是直接在访问state本身。
+
+## Immer
+简化对于可变对象的useState时，可以使用`useImmer`
+
