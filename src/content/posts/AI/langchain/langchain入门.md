@@ -111,3 +111,75 @@ ans = chain.invoke(input={'ipt':'夕阳，车流'})
   res = Agent("今天深圳天气如何", model, tools)
   print(res.content)
   ```
+
+# pdf语义搜索
+1. 文档和文档加载器
+一个pdf加载成一系列`Document`对象，一个对象通常是一页，包含
+      - page_content：页面内容
+      - metadata：文件名和文件页码
+
+1. 分割
+进一步拆分我们的 PDF 将有助于确保文档相关部分的含义不会被周围文本“冲淡”。
+主要参数：
+     - 块大小：chunk_size
+     - 重叠字数：chunk_overlap
+
+1. 矢量存储Embedding
+将文本转为数值向量。依托于文本向量化模型。
+
+1. 矢量存储VectorStore
+Embedding模型为文本向量化模型。VectorStore将文本向量化模型作为一个参数，对文档等知识建立索引与存储。
+
+     - 根据字符串相似度返回文档
+     - 异步查询
+     - 返回分数并根据字符串相似度返回文档
+     - 将文本先进行embedding，再根据向量到VectorStore中进行数据查询
+
+1. 检索器Retrievers
+VectorStore未实现类似Runnable的方法。检索器是一个Runable对象。可以通过一个VectorStore实例构建一个Retriever对象。
+  ```python
+  retriever = vector_store.as_retriever(
+    search_type="similarity",##调用底层向量存储的方法名字
+    search_kwargs={"k": 1},##参数化
+  )
+
+  retriever.batch(
+      [
+          "How many distribution centers does Nike have in the US?",
+          "When was Nike incorporated?",
+      ],
+  )
+  ```
+  
+# 具有结构化输出的模型
+使用`pydantic`库实现构建一个具有结构化输出的LLM。
+```python
+from langchain_openai import ChatOpenAI
+from pydantic import BaseModel, Field
+
+class Classification(BaseModel):
+    sentiment: str = Field(description="The sentiment of the text")
+    aggressiveness: int = Field(
+        description="How aggressive the text is on a scale from 1 to 10"
+    )
+    language: str = Field(description="The language the text is written in")
+
+
+# LLM
+llm = ChatOpenAI(temperature=0, model="gpt-4o-mini").with_structured_output(
+    Classification
+)
+```
+> 更精细的控制，使用枚举来控制之前提到的每个方面。
+```python
+class Classification(BaseModel):
+    sentiment: str = Field(..., enum=["happy", "neutral", "sad"])
+    aggressiveness: int = Field(
+        ...,
+        description="describes how aggressive the statement is, the higher the number the more aggressive",
+        enum=[1, 2, 3, 4, 5],
+    )
+    language: str = Field(
+        ..., enum=["spanish", "english", "french", "german", "italian"]
+    )
+```
