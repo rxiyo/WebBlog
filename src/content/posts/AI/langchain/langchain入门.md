@@ -151,8 +151,8 @@ VectorStore未实现类似Runnable的方法。检索器是一个Runable对象。
   )
   ```
   
-# 具有结构化输出的模型
-使用`pydantic`库实现构建一个具有结构化输出的LLM。
+# 具有结构化输出的LLM:评价/打分
+使用`pydantic`库实现构建一个具有结构化输出的LLM。可以实现类似评分和分类的功能。
 ```python
 from langchain_openai import ChatOpenAI
 from pydantic import BaseModel, Field
@@ -182,4 +182,40 @@ class Classification(BaseModel):
     language: str = Field(
         ..., enum=["spanish", "english", "french", "german", "italian"]
     )
+```
+
+# 从非结构化数据中提取结构化数据
+1. schema
+描述我们需要从文本中提取哪些消息
+```python
+from typing import Optional
+
+from pydantic import BaseModel, Field
+
+class Person(BaseModel):
+    """Information about a person."""
+
+    # ^ Doc-string for the entity Person.
+    # This doc-string is sent to the LLM as the description of the schema Person,
+    # and it can help to improve extraction results.
+
+    # Note that:
+    # 1. Each field is an `optional` -- this allows the model to decline to extract it!
+    # 2. Each field has a `description` -- this description is used by the LLM.
+    # Having a good description can help improve extraction results.
+    name: Optional[str] = Field(default=None, description="The name of the person")
+    hair_color: Optional[str] = Field(
+        default=None, description="The color of the person's hair if known"
+    )
+    height_in_meters: Optional[str] = Field(
+        default=None, description="Height measured in meters"
+    )
+```
+> Optional[str] 字段告诉模型所给文本中没用相关信息时，可以不回答。
+
+2. 提取器
+```python
+from langchain.chat_models import init_chat_model
+llm = init_chat_model("gpt-4o-mini", model_provider="openai")
+structured_llm = llm.with_structured_output(schema=Person)
 ```
