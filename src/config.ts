@@ -7,7 +7,7 @@ import type {
 import { LinkPreset } from './types/config'
 
 export const siteConfig: SiteConfig = {
-  title: 'HanFaye',
+  title: 'WebBlog',
   subtitle: 'Site',
   lang: 'en',         // 'en', 'zh_CN', 'zh_TW', 'ja', 'ko', 'es', 'th'
   themeColor: {
@@ -45,7 +45,7 @@ export const navBarConfig: NavBarConfig = {
     // LinkPreset.Resume,
     {
       name: 'GitHub',
-      url: 'https://github.com/HanFayeDD/WebBlog',     // Internal links should not include the base path, as it is automatically added
+      url: 'https://github.com/rxiyo/WebBlog',     // Internal links should not include the base path, as it is automatically added
       external: true,                               // Show an external link icon and will open in a new tab
     },
   ],
@@ -53,8 +53,8 @@ export const navBarConfig: NavBarConfig = {
 
 export const profileConfig: ProfileConfig = {
   avatar: 'assets/images/pig.jpg',  // Relative to the /src directory. Relative to the /public directory if it starts with '/'
-  name: 'HanFaye',
-  bio: 'hi🤓',
+  name: 'Louise',
+  bio: 'fuck the world',
   links: [
     {
       name: 'Twitter',
@@ -71,12 +71,12 @@ export const profileConfig: ProfileConfig = {
     {
       name: 'Email',
       icon: 'fa6-solid:envelope',
-      url: 'mailto:3294196260@qq.com'
+      url: 'mailto:1367383990@qq.com'
     },
     {
       name: 'GitHub',
       icon: 'fa6-brands:github',
-      url: 'https://github.com/HanFayeDD',
+      url: 'https://github.com/rxiyo',
     },
   ],
 }
