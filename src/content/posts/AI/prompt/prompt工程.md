@@ -4,7 +4,7 @@ published: 2025-04-11
 description: ""
 tags: ["prompt"]
 category: AI
-draft: false
+draft: true
 ---
 # 基本
 编写提示并非数据科学家或机器学习工程师的专利任何人都可以进行。然而，构建最高效的提示可能相当复杂。
